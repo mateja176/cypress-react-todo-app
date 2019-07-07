@@ -1,7 +1,13 @@
 import React from 'react';
 
-export default ({ currentTodo, setCurrentTodo }) => (
-  <form>
+export default ({ currentTodo, setCurrentTodo, onSubmit }) => (
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+
+      onSubmit();
+    }}
+  >
     <input
       type="text"
       className="new-todo"

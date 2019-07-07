@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { saveTodo } from '../lib/service';
 import Footer from './Footer';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -15,6 +16,7 @@ export default class TodoApp extends Component {
     const {
       state: { todos, currentTodo },
     } = this;
+
     return (
       <Router>
         <div>
@@ -23,6 +25,11 @@ export default class TodoApp extends Component {
             <TodoForm
               currentTodo={currentTodo}
               setCurrentTodo={todo => this.setState({ currentTodo: todo })}
+              onSubmit={() => {
+                saveTodo(currentTodo).then(({ data: todo }) => {
+                  this.setState({ todos: todos.concat(todo) });
+                });
+              }}
             />
           </header>
           <section className="main">
