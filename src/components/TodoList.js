@@ -1,11 +1,17 @@
 import React from 'react';
 
 const TodoItem = ({ name, isComplete, removeTodo }) => (
-  <li>
+  <li className={isComplete ? 'completed' : ''}>
     <div className="view">
-      <label htmlFor="todo">
+      <label
+        htmlFor="todo"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <input id="todo" type="checkbox" checked={isComplete} style={{ marginRight: 20 }} />
         {name}
-        <input id="todo" className="toggle" type="checkbox" checked={isComplete} />
       </label>
       <button type="button" className="destroy" onClick={removeTodo} onKeyUp={removeTodo} />
     </div>
