@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { saveTodo } from '../lib/service';
+import { loadTodos, saveTodo } from '../lib/service';
 import Footer from './Footer';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -10,6 +10,10 @@ export default class TodoApp extends Component {
     super(props);
 
     this.state = { todos: [], currentTodo: '', error: '' };
+  }
+
+  componentDidMount() {
+    loadTodos().then(({ data: todos }) => this.setState({ todos }));
   }
 
   render() {

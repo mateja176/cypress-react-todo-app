@@ -1,3 +1,7 @@
 import axios from 'axios';
 
-export const saveTodo = todo => axios.post('http://localhost:3030/api/todos', todo);
+const url = 'http://localhost:3030/api/todos';
+
+export const saveTodo = todo => axios.post(url, todo);
+
+export const loadTodos = () => axios.get(url);
