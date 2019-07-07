@@ -1,6 +1,8 @@
 import React from 'react';
 
-const TodoItem = ({ name, isComplete, deleteTodo }) => (
+const TodoItem = ({
+  name, isComplete, deleteTodo, toggleComplete,
+}) => (
   <li className={isComplete ? 'completed' : ''}>
     <div className="view">
       <label
@@ -10,7 +12,13 @@ const TodoItem = ({ name, isComplete, deleteTodo }) => (
           alignItems: 'center',
         }}
       >
-        <input id="todo" type="checkbox" checked={isComplete} style={{ marginRight: 20 }} />
+        <input
+          id="todo"
+          type="checkbox"
+          style={{ marginRight: 20 }}
+          checked={isComplete}
+          onChange={toggleComplete}
+        />
         {name}
       </label>
       <button type="button" className="destroy" onClick={deleteTodo} onKeyUp={deleteTodo} />
@@ -18,10 +26,15 @@ const TodoItem = ({ name, isComplete, deleteTodo }) => (
   </li>
 );
 
-export default ({ todos, deleteTodo }) => (
+export default ({ todos, deleteTodo, toggleComplete }) => (
   <ul className="todo-list">
     {todos.map(({ id, ...todo }) => (
-      <TodoItem key={id} {...todo} deleteTodo={() => deleteTodo(id)} />
+      <TodoItem
+        key={id}
+        {...todo}
+        deleteTodo={() => deleteTodo(id)}
+        toggleComplete={() => toggleComplete(id)}
+      />
     ))}
   </ul>
 );

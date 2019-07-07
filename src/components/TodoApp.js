@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { deleteTodo, loadTodos, saveTodo } from '../lib/service';
+import {
+  deleteTodo, loadTodos, saveTodo, updateTodo,
+} from '../lib/service';
 import Footer from './Footer';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -55,6 +57,15 @@ export default class TodoApp extends Component {
                 this.setState({ todos: newTodos });
               })
               }
+              toggleComplete={(id) => {
+                const { isComplete, ...todoToUpdate } = todos.find(todo => todo.id === id);
+
+                console.log(isComplete, !isComplete);
+
+                updateTodo({ ...todoToUpdate, isComplete: !isComplete }).then(({ data }) => {
+                  this.setState({ todos: todos.map(todo => (todo.id === id ? data : todo)) });
+                });
+              }}
             />
           </section>
           <Footer remaining={remaining} />
