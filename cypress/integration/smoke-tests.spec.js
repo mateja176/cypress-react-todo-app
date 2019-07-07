@@ -59,20 +59,31 @@ describe('Smoke tests', () => {
         .should('not.exist');
     });
 
-    it('Toggles todos', () => {
+    it.only('Toggles todos', () => {
+      const clickAndWait = (item) => {
+        cy.wrap(item)
+          .as('item')
+          .find('.todo-item')
+          .click();
+
+        cy.wait('@update');
+      };
+
       cy.server();
 
       cy.route('PUT', '/api/todos/*').as('update');
 
-      cy.get('.todo-list li').each(item => cy
-        .wrap(item)
-        .as('item')
-        .find('#todo')
-        .click());
+      cy.get('.todo-list li')
+        .each((item) => {
+          clickAndWait(item);
 
-      cy.wait('@update');
+          cy.get('@item').should('have.class', 'completed');
+        })
+        .each((item) => {
+          clickAndWait(item);
 
-      cy.get('@item').should('have.class', 'completed');
+          cy.get('@item').should('not.have.class', 'completed');
+        });
     });
   });
 });

@@ -8,7 +8,7 @@ describe('List items', () => {
       .filter('.completed')
       .should('have.length', 1)
       .and('contain', 'Eggs')
-      .find('#todo')
+      .find('.todo-item')
       .should('be.checked');
   });
 
@@ -52,7 +52,7 @@ describe('List items', () => {
       .as('first-todo');
 
     cy.get('@first-todo')
-      .find('#todo')
+      .find('.todo-item')
       .click()
       .should('be.checked');
 

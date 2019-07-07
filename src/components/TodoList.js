@@ -3,17 +3,16 @@ import React from 'react';
 const TodoItem = ({
   name, isComplete, deleteTodo, toggleComplete,
 }) => (
-  <li className={isComplete ? 'completed' : ''}>
+  <li className={isComplete ? 'completed' : null}>
     <div className="view">
       <label
-        htmlFor="todo"
         style={{
           display: 'flex',
           alignItems: 'center',
         }}
       >
         <input
-          id="todo"
+          className="todo-item"
           type="checkbox"
           style={{ marginRight: 20 }}
           checked={isComplete}
