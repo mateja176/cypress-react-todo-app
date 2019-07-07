@@ -1,1 +1,9 @@
-{}
+{
+  "todos": [
+    {
+      "id": 70,
+      "name": "Buy bread",
+      "isCompleted": false
+    }
+  ]
+}
