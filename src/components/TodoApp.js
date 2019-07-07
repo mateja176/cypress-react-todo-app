@@ -10,23 +10,20 @@ export default class TodoApp extends Component {
     super(props);
 
     this.state = { todos: [], currentTodo: '', error: '' };
-
-    this.setError.bind(this);
   }
 
   componentDidMount() {
     loadTodos()
       .then(({ data: todos }) => this.setState({ todos }))
-      .catch(this.setError());
+      .catch(() => this.setError('Failed to load'));
   }
 
-  setError() {
-    this.setState({ error: 'Failed to add' });
+  setError(error) {
+    this.setState({ error });
   }
 
   render() {
     const {
-      setError,
       state: { todos, currentTodo, error },
     } = this;
 
@@ -44,7 +41,7 @@ export default class TodoApp extends Component {
                   .then(({ data: todo }) => {
                     this.setState({ todos: todos.concat(todo) });
                   })
-                  .catch(setError);
+                  .catch(() => this.setError('Failed to add'));
               }}
             />
           </header>
