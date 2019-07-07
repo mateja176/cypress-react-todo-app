@@ -2,9 +2,7 @@ import axios from 'axios';
 
 const url = 'http://localhost:3030/api/todos';
 
-export const saveTodo = (name) => {
-  axios.post(url, { id: Math.round(Math.random() * 100), name, isCompleted: false });
-};
+export const saveTodo = name => axios.post(url, { id: Math.round(Math.random() * 100), name, isCompleted: false });
 
 export const loadTodos = () => axios.get(url);
 
