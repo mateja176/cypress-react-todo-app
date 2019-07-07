@@ -9,6 +9,7 @@
     "serve": "json-server db.json",
     "dev": "concurrently \"npm run watch\" \"npm run serve\"",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "wait": "wait-on http://localhost:3030",
     "cypress:wait": "run-s wait cypress:open",
     "cypress": "run-p dev cypress:wait"
