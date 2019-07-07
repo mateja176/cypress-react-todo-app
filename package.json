@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/mocha": "^5.2.7",
+    "@types/react-router-dom": "^4.3.4",
     "@types/url-join": "^4.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^10.0.2",

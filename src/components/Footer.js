@@ -6,7 +6,10 @@ export default ({ remaining }) => (
     <span className="todo-count">
       <strong>{remaining}</strong>
       {' '}
-todos left
+todo
+      {remaining === 1 ? '' : 's'}
+      {' '}
+left
     </span>
     <ul className="filters">
       <li>

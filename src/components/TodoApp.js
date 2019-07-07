@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {
   deleteTodo, loadTodos, saveTodo, updateTodo,
 } from '../lib/service';
@@ -50,22 +50,38 @@ export default class TodoApp extends Component {
             />
           </header>
           <section className="main">
-            <TodoList
-              todos={todos}
-              deleteTodo={id => deleteTodo(id).then(() => {
-                const newTodos = todos.filter(todo => todo.id !== id);
-                this.setState({ todos: newTodos });
-              })
-              }
-              toggleComplete={(id) => {
-                const { isComplete, ...todoToUpdate } = todos.find(todo => todo.id === id);
+            <Route
+              path="/:filter?"
+              render={({
+                match: {
+                  params: { filter },
+                },
+              }) => (
+                <TodoList
+                  todos={todos.filter(({ isComplete }) => {
+                    switch (filter) {
+                      case 'active':
+                        return !isComplete;
+                      case 'completed':
+                        return isComplete;
+                      default:
+                        return true;
+                    }
+                  })}
+                  deleteTodo={id => deleteTodo(id).then(() => {
+                    const newTodos = todos.filter(todo => todo.id !== id);
+                    this.setState({ todos: newTodos });
+                  })
+                  }
+                  toggleComplete={(id) => {
+                    const { isComplete, ...todoToUpdate } = todos.find(todo => todo.id === id);
 
-                console.log(isComplete, !isComplete);
-
-                updateTodo({ ...todoToUpdate, isComplete: !isComplete }).then(({ data }) => {
-                  this.setState({ todos: todos.map(todo => (todo.id === id ? data : todo)) });
-                });
-              }}
+                    updateTodo({ ...todoToUpdate, isComplete: !isComplete }).then(({ data }) => {
+                      this.setState({ todos: todos.map(todo => (todo.id === id ? data : todo)) });
+                    });
+                  }}
+                />
+              )}
             />
           </section>
           <Footer remaining={remaining} />
