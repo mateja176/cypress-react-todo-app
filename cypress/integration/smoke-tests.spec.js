@@ -26,6 +26,53 @@ describe('Smoke tests', () => {
       cy.wait('@create');
 
       cy.get('.todo-list li').should('have.length', expectedLength);
+
+      cy.get('.new-todo').clear();
+    });
+  });
+
+  context('With active todos', () => {
+    beforeEach(() => {
+      cy.fixture('todos').each((todo) => {
+        const newTodo = { ...todo, isComplete: false };
+
+        cy.request('POST', '/api/todos', newTodo);
+      });
+      cy.visit('/');
+    });
+
+    it('Loads existing data from the DB', () => {
+      cy.get('.todo-list li').should('have.length', 4);
+    });
+
+    it('Deletes todos', () => {
+      cy.server();
+
+      cy.route('DELETE', '/api/todos/*').as('delete');
+
+      cy.get('.todo-list li')
+        .each(item => cy
+          .wrap(item)
+          .find('.destroy')
+          .invoke('show')
+          .click())
+        .should('not.exist');
+    });
+
+    it('Toggles todos', () => {
+      cy.server();
+
+      cy.route('PUT', '/api/todos/*').as('update');
+
+      cy.get('.todo-list li').each(item => cy
+        .wrap(item)
+        .as('item')
+        .find('#todo')
+        .click());
+
+      cy.wait('@update');
+
+      cy.get('@item').should('have.class', 'completed');
     });
   });
 });
