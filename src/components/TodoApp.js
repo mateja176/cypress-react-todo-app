@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { loadTodos, saveTodo } from '../lib/service';
+import { deleteTodo, loadTodos, saveTodo } from '../lib/service';
 import Footer from './Footer';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -27,6 +27,8 @@ export default class TodoApp extends Component {
       state: { todos, currentTodo, error },
     } = this;
 
+    const remaining = todos.filter(({ isComplete }) => !isComplete).length;
+
     return (
       <Router>
         <div>
@@ -46,9 +48,16 @@ export default class TodoApp extends Component {
             />
           </header>
           <section className="main">
-            <TodoList todos={todos} />
+            <TodoList
+              todos={todos}
+              deleteTodo={id => deleteTodo(id).then(() => {
+                const newTodos = todos.filter(todo => todo.id !== id);
+                this.setState({ todos: newTodos });
+              })
+              }
+            />
           </section>
-          <Footer />
+          <Footer remaining={remaining} />
         </div>
       </Router>
     );

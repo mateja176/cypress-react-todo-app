@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TodoItem = ({ name, isComplete, removeTodo }) => (
+const TodoItem = ({ name, isComplete, deleteTodo }) => (
   <li className={isComplete ? 'completed' : ''}>
     <div className="view">
       <label
@@ -13,15 +13,15 @@ const TodoItem = ({ name, isComplete, removeTodo }) => (
         <input id="todo" type="checkbox" checked={isComplete} style={{ marginRight: 20 }} />
         {name}
       </label>
-      <button type="button" className="destroy" onClick={removeTodo} onKeyUp={removeTodo} />
+      <button type="button" className="destroy" onClick={deleteTodo} onKeyUp={deleteTodo} />
     </div>
   </li>
 );
 
-export default ({ todos }) => (
+export default ({ todos, deleteTodo }) => (
   <ul className="todo-list">
-    {todos.map(todo => (
-      <TodoItem key={todo.id} {...todo} />
+    {todos.map(({ id, ...todo }) => (
+      <TodoItem key={id} {...todo} deleteTodo={() => deleteTodo(id)} />
     ))}
   </ul>
 );
