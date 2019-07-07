@@ -1,9 +1,7 @@
 import React from 'react';
 
-const TodoItem = ({
-  id, name, isComplete, removeTodo,
-}) => (
-  <li key={id}>
+const TodoItem = ({ name, isComplete, removeTodo }) => (
+  <li>
     <div className="view">
       <label htmlFor="todo">
         {name}
@@ -17,7 +15,7 @@ const TodoItem = ({
 export default ({ todos }) => (
   <ul className="todo-list">
     {todos.map(todo => (
-      <TodoItem {...todo} />
+      <TodoItem key={todo.id} {...todo} />
     ))}
   </ul>
 );

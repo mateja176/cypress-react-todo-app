@@ -9,12 +9,12 @@ export default class TodoApp extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { todos: [], currentTodo: '' };
+    this.state = { todos: [], currentTodo: '', error: '' };
   }
 
   render() {
     const {
-      state: { todos, currentTodo },
+      state: { todos, currentTodo, error },
     } = this;
 
     return (
@@ -22,13 +22,16 @@ export default class TodoApp extends Component {
         <div>
           <header className="header">
             <h1>todos</h1>
+            {error ? <span className="error">{error}</span> : null}
             <TodoForm
               currentTodo={currentTodo}
               setCurrentTodo={todo => this.setState({ currentTodo: todo })}
               onSubmit={() => {
-                saveTodo(currentTodo).then(({ data: todo }) => {
-                  this.setState({ todos: todos.concat(todo) });
-                });
+                saveTodo(currentTodo)
+                  .then(({ data: todo }) => {
+                    this.setState({ todos: todos.concat(todo) });
+                  })
+                  .catch(() => this.setState({ error: 'Failed to add' }));
               }}
             />
           </header>
