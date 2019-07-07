@@ -16,10 +16,17 @@ describe('Footer', () => {
       cy.get('.todo-count').should('contain', '3 todos left');
     });
 
-    it('Filters to active todos', () => {
-      cy.contains('Active').click();
+    it('Handles filter links', () => {
+      const filters = [
+        { linkText: 'Active', expectedLength: 3 },
+        { linkText: 'Completed', expectedLength: 1 },
+        { linkText: 'All', expectedLength: 4 },
+      ];
+      cy.wrap(filters).each(({ linkText, expectedLength }) => {
+        cy.contains(linkText).click();
 
-      cy.get('.todo-list li').should('have.length', 3);
+        cy.get('.todo-list li').should('have.length', expectedLength);
+      });
     });
   });
 });
